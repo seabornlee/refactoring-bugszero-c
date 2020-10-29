@@ -1357,7 +1357,7 @@ function and you may want to validate it. Since most STL containers support the
 `expected_container` to match a container exactly.
 
 Sometimes, though, you may want to be more flexible (for example, the first
-element must be an exact match, but the second element can be any positive
+elements must be an exact match, but the second elements can be any positive
 number, and so on). Also, containers used in tests often have a small number of
 elements, and having to define the expected container out-of-line is a bit of a
 hassle.
@@ -1399,11 +1399,11 @@ As an alternative you can place the arguments in a C-style array and use
 ```cpp
 using ::testing::ElementsAreArray;
 ...
-  // ElementsAreArray accepts an array of element values.
+  // ElementsAreArray accepts an array of elements values.
   const int expected_vector1[] = {1, 5, 2, 4, ...};
   EXPECT_CALL(mock, Foo(ElementsAreArray(expected_vector1)));
 
-  // Or, an array of element matchers.
+  // Or, an array of elements matchers.
   Matcher<int> expected_vector2[] = {1, Gt(2), _, 3, ...};
   EXPECT_CALL(mock, Foo(ElementsAreArray(expected_vector2)));
 ```
@@ -1442,7 +1442,7 @@ using testing::Pair;
 *   If the container is passed by pointer instead of by reference, just write
     `Pointee(ElementsAre*(...))`.
 *   The order of elements *matters* for `ElementsAre*()`. If you are using it
-    with containers whose element order are undefined (e.g. `hash_map`) you
+    with containers whose elements order are undefined (e.g. `hash_map`) you
     should use `WhenSorted` around `ElementsAre`.
 
 ### Sharing Matchers

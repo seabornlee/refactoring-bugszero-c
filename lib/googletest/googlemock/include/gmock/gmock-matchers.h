@@ -464,7 +464,7 @@ class TransformTupleValuesHelper {
   };
 };
 
-// Successively invokes 'f(element)' on each element of the tuple 't',
+// Successively invokes 'f(elements)' on each elements of the tuple 't',
 // appending each result to the 'out' iterator. Returns the final value
 // of 'out'.
 template <typename Tuple, typename Func, typename OutIter>
@@ -1170,8 +1170,8 @@ using AnyOfMatcher = VariadicMatcher<AnyOfMatcherImpl, Args...>;
 template <template <class> class MatcherImpl, typename T>
 class SomeOfArrayMatcher {
  public:
-  // Constructs the matcher from a sequence of element values or
-  // element matchers.
+  // Constructs the matcher from a sequence of elements values or
+  // elements matchers.
   template <typename Iter>
   SomeOfArrayMatcher(Iter first, Iter last) : matchers_(first, last) {}
 
@@ -2374,7 +2374,7 @@ class QuantifierMatcherImpl : public MatcherInterface<Container> {
 
   // Checks whether:
   // * All elements in the container match, if all_elements_should_match.
-  // * Any element in the container matches, if !all_elements_should_match.
+  // * Any elements in the container matches, if !all_elements_should_match.
   bool MatchAndExplainImpl(bool all_elements_should_match,
                            Container container,
                            MatchResultListener* listener) const {
@@ -2386,7 +2386,7 @@ class QuantifierMatcherImpl : public MatcherInterface<Container> {
       const bool matches = inner_matcher_.MatchAndExplain(*it, &inner_listener);
 
       if (matches != all_elements_should_match) {
-        *listener << "whose element #" << i
+        *listener << "whose elements #" << i
                   << (matches ? " matches" : " doesn't match");
         PrintIfNotEmpty(inner_listener.str(), listener->stream());
         return !all_elements_should_match;
@@ -2412,12 +2412,12 @@ class ContainsMatcherImpl : public QuantifierMatcherImpl<Container> {
 
   // Describes what this matcher does.
   void DescribeTo(::std::ostream* os) const override {
-    *os << "contains at least one element that ";
+    *os << "contains at least one elements that ";
     this->inner_matcher_.DescribeTo(os);
   }
 
   void DescribeNegationTo(::std::ostream* os) const override {
-    *os << "doesn't contain any element that ";
+    *os << "doesn't contain any elements that ";
     this->inner_matcher_.DescribeTo(os);
   }
 
@@ -2446,7 +2446,7 @@ class EachMatcherImpl : public QuantifierMatcherImpl<Container> {
   }
 
   void DescribeNegationTo(::std::ostream* os) const override {
-    *os << "contains some element that ";
+    *os << "contains some elements that ";
     this->inner_matcher_.DescribeNegationTo(os);
   }
 
@@ -2522,7 +2522,7 @@ auto Second(T& x, Rank0) -> decltype((x.second)) {  // NOLINT
 // Implements Key(inner_matcher) for the given argument pair type.
 // Key(inner_matcher) matches an std::pair whose 'first' field matches
 // inner_matcher.  For example, Contains(Key(Ge(5))) can be used to match an
-// std::map that contains at least one element whose key is >= 5.
+// std::map that contains at least one elements whose key is >= 5.
 template <typename PairType>
 class KeyMatcherImpl : public MatcherInterface<PairType> {
  public:
@@ -2702,8 +2702,8 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
   typedef typename View::const_reference StlContainerReference;
   typedef typename StlContainer::value_type Element;
 
-  // Constructs the matcher from a sequence of element values or
-  // element matchers.
+  // Constructs the matcher from a sequence of elements values or
+  // elements matchers.
   template <typename InputIter>
   ElementsAreMatcherImpl(InputIter first, InputIter last) {
     while (first != last) {
@@ -2716,12 +2716,12 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
     if (count() == 0) {
       *os << "is empty";
     } else if (count() == 1) {
-      *os << "has 1 element that ";
+      *os << "has 1 elements that ";
       matchers_[0].DescribeTo(os);
     } else {
       *os << "has " << Elements(count()) << " where\n";
       for (size_t i = 0; i != count(); ++i) {
-        *os << "element #" << i << " ";
+        *os << "elements #" << i << " ";
         matchers_[i].DescribeTo(os);
         if (i + 1 < count()) {
           *os << ",\n";
@@ -2739,7 +2739,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
 
     *os << "doesn't have " << Elements(count()) << ", or\n";
     for (size_t i = 0; i != count(); ++i) {
-      *os << "element #" << i << " ";
+      *os << "elements #" << i << " ";
       matchers_[i].DescribeNegationTo(os);
       if (i + 1 < count()) {
         *os << ", or\n";
@@ -2754,18 +2754,18 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
 
     const bool listener_interested = listener->IsInterested();
 
-    // explanations[i] is the explanation of the element at index i.
+    // explanations[i] is the explanation of the elements at index i.
     ::std::vector<std::string> explanations(count());
     StlContainerReference stl_container = View::ConstReference(container);
     typename StlContainer::const_iterator it = stl_container.begin();
     size_t exam_pos = 0;
-    bool mismatch_found = false;  // Have we found a mismatched element yet?
+    bool mismatch_found = false;  // Have we found a mismatched elements yet?
 
     // Go through the elements and matchers in pairs, until we reach
     // the end of either the elements or the matchers, or until we find a
     // mismatch.
     for (; it != stl_container.end() && exam_pos != count(); ++it, ++exam_pos) {
-      bool match;  // Does the current element match the current matcher?
+      bool match;  // Does the current elements match the current matcher?
       if (listener_interested) {
         StringMatchResultListener s;
         match = matchers_[exam_pos].MatchAndExplain(*it, &s);
@@ -2790,7 +2790,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
     }
 
     if (actual_count != count()) {
-      // The element count doesn't match.  If the container is empty,
+      // The elements count doesn't match.  If the container is empty,
       // there's no need to explain anything as Google Mock already
       // prints the empty container.  Otherwise we just need to show
       // how many elements there actually are.
@@ -2801,15 +2801,15 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
     }
 
     if (mismatch_found) {
-      // The element count matches, but the exam_pos-th element doesn't match.
+      // The elements count matches, but the exam_pos-th elements doesn't match.
       if (listener_interested) {
-        *listener << "whose element #" << exam_pos << " doesn't match";
+        *listener << "whose elements #" << exam_pos << " doesn't match";
         PrintIfNotEmpty(explanations[exam_pos], listener->stream());
       }
       return false;
     }
 
-    // Every element matches its expectation.  We need to explain why
+    // Every elements matches its expectation.  We need to explain why
     // (the obvious ones can be skipped).
     if (listener_interested) {
       bool reason_printed = false;
@@ -2819,7 +2819,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
           if (reason_printed) {
             *listener << ",\nand ";
           }
-          *listener << "whose element #" << i << " matches, " << s;
+          *listener << "whose elements #" << i << " matches, " << s;
           reason_printed = true;
         }
       }
@@ -2829,7 +2829,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
 
  private:
   static Message Elements(size_t count) {
-    return Message() << count << (count == 1 ? " element" : " elements");
+    return Message() << count << (count == 1 ? " elements" : " elements");
   }
 
   size_t count() const { return matchers_.size(); }
@@ -2839,7 +2839,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
   GTEST_DISALLOW_ASSIGN_(ElementsAreMatcherImpl);
 };
 
-// Connectivity matrix of (elements X matchers), in element-major order.
+// Connectivity matrix of (elements X matchers), in elements-major order.
 // Initially, there are no edges.
 // Use NextGraph() to iterate over all possible edge configurations.
 // Use Randomize() to generate a random edge configuration.
@@ -2877,7 +2877,7 @@ class GTEST_API_ MatchMatrix {
   size_t num_elements_;
   size_t num_matchers_;
 
-  // Each element is a char interpreted as bool. They are stored as a
+  // Each elements is a char interpreted as bool. They are stored as a
   // flattened array in lhs-major order, use 'SpaceIndex()' to translate
   // a (ilhs, irhs) matrix coordinate into an offset.
   ::std::vector<char> matched_;
@@ -2887,7 +2887,7 @@ typedef ::std::pair<size_t, size_t> ElementMatcherPair;
 typedef ::std::vector<ElementMatcherPair> ElementMatcherPairs;
 
 // Returns a maximum bipartite matching for the specified graph 'g'.
-// The matching is represented as a vector of {element, matcher} pairs.
+// The matching is represented as a vector of {elements, matcher} pairs.
 GTEST_API_ ElementMatcherPairs
 FindMaxBipartiteMatching(const MatchMatrix& g);
 
@@ -2900,7 +2900,7 @@ struct UnorderedMatcherRequire {
 };
 
 // Untyped base class for implementing UnorderedElementsAre.  By
-// putting logic that's not specific to the element type here, we
+// putting logic that's not specific to the elements type here, we
 // reduce binary bloat and increase compilation speed.
 class GTEST_API_ UnorderedElementsAreMatcherImplBase {
  protected:
@@ -2908,9 +2908,9 @@ class GTEST_API_ UnorderedElementsAreMatcherImplBase {
       UnorderedMatcherRequire::Flags matcher_flags)
       : match_flags_(matcher_flags) {}
 
-  // A vector of matcher describers, one for each element matcher.
+  // A vector of matcher describers, one for each elements matcher.
   // Does not own the describers (and thus can be used only when the
-  // element matchers are alive).
+  // elements matchers are alive).
   typedef ::std::vector<const MatcherDescriberInterface*> MatcherDescriberVec;
 
   // Describes this UnorderedElementsAre matcher.
@@ -2931,7 +2931,7 @@ class GTEST_API_ UnorderedElementsAreMatcherImplBase {
   }
 
   static Message Elements(size_t n) {
-    return Message() << n << " element" << (n == 1 ? "" : "s");
+    return Message() << n << " elements" << (n == 1 ? "" : "s");
   }
 
   UnorderedMatcherRequire::Flags match_flags() const { return match_flags_; }
@@ -2991,7 +2991,7 @@ class UnorderedElementsAreMatcherImpl
 
     if (match_flags() == UnorderedMatcherRequire::ExactMatch) {
       if (matrix.LhsSize() != matrix.RhsSize()) {
-        // The element count doesn't match.  If the container is empty,
+        // The elements count doesn't match.  If the container is empty,
         // there's no need to explain anything as Google Mock already
         // prints the empty container. Otherwise we just need to show
         // how many elements there actually are.
@@ -3349,7 +3349,7 @@ class VariantMatcher {
     GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(
         return internal::GetTypeName<T>());
 #endif
-    return "the element type";
+    return "the elements type";
   }
 
   const ::testing::Matcher<const T&> matcher_;
@@ -3410,7 +3410,7 @@ class AnyCastMatcher {
     GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(
         return internal::GetTypeName<T>());
 #endif
-    return "the element type";
+    return "the elements type";
   }
 
   const ::testing::Matcher<const T&> matcher_;
@@ -3501,7 +3501,7 @@ class ArgsMatcher {
 //
 // The ElementsAreArray() functions are like ElementsAre(...), except
 // that they are given a homogeneous sequence rather than taking each
-// element as a function argument. The sequence can be specified as an
+// elements as a function argument. The sequence can be specified as an
 // array, a pointer and count, a vector, an initializer list, or an
 // STL iterator range. In each of these cases, the underlying sequence
 // can be either a sequence of values or a sequence of matchers.
@@ -4070,8 +4070,8 @@ WhenSorted(const ContainerMatcher& container_matcher) {
 }
 
 // Matches an STL-style container or a native array that contains the
-// same number of elements as in rhs, where its i-th element and rhs's
-// i-th element (as a pair) satisfy the given pair matcher, for all i.
+// same number of elements as in rhs, where its i-th elements and rhs's
+// i-th elements (as a pair) satisfy the given pair matcher, for all i.
 // TupleMatcher must be able to be safely cast to Matcher<std::tuple<const
 // T1&, const T2&> >, where T1 and T2 are the types of elements in the
 // LHS container and the RHS container respectively.
@@ -4095,13 +4095,13 @@ inline internal::PointwiseMatcher<TupleMatcher, std::vector<T> > Pointwise(
 // UnorderedPointwise(pair_matcher, rhs) matches an STL-style
 // container or a native array that contains the same number of
 // elements as in rhs, where in some permutation of the container, its
-// i-th element and rhs's i-th element (as a pair) satisfy the given
+// i-th elements and rhs's i-th elements (as a pair) satisfy the given
 // pair matcher, for all i.  Tuple2Matcher must be able to be safely
 // cast to Matcher<std::tuple<const T1&, const T2&> >, where T1 and T2 are
 // the types of elements in the LHS container and the RHS container
 // respectively.
 //
-// This is like Pointwise(pair_matcher, rhs), except that the element
+// This is like Pointwise(pair_matcher, rhs), except that the elements
 // order doesn't matter.
 template <typename Tuple2Matcher, typename RhsContainer>
 inline internal::UnorderedElementsAreArrayMatcher<
@@ -4119,7 +4119,7 @@ UnorderedPointwise(const Tuple2Matcher& tuple2_matcher,
   const RhsStlContainer& rhs_stl_container =
       RhsView::ConstReference(rhs_container);
 
-  // Create a matcher for each element in rhs_container.
+  // Create a matcher for each elements in rhs_container.
   ::std::vector<internal::BoundSecondMatcher<Tuple2Matcher, Second> > matchers;
   for (typename RhsStlContainer::const_iterator it = rhs_stl_container.begin();
        it != rhs_stl_container.end(); ++it) {
@@ -4143,7 +4143,7 @@ UnorderedPointwise(const Tuple2Matcher& tuple2_matcher,
 
 
 // Matches an STL-style container or a native array that contains at
-// least one element matching the given value or matcher.
+// least one elements matching the given value or matcher.
 //
 // Examples:
 //   ::std::set<int> page_ids;
@@ -4317,7 +4317,7 @@ inline internal::EachMatcher<M> Each(M matcher) {
 
 // Key(inner_matcher) matches an std::pair whose 'first' field matches
 // inner_matcher.  For example, Contains(Key(Ge(5))) can be used to match an
-// std::map that contains at least one element whose key is >= 5.
+// std::map that contains at least one elements whose key is >= 5.
 template <typename M>
 inline internal::KeyMatcher<M> Key(M inner_matcher) {
   return internal::KeyMatcher<M>(inner_matcher);
@@ -4326,7 +4326,7 @@ inline internal::KeyMatcher<M> Key(M inner_matcher) {
 // Pair(first_matcher, second_matcher) matches a std::pair whose 'first' field
 // matches first_matcher and whose 'second' field matches second_matcher.  For
 // example, EXPECT_THAT(map_type, ElementsAre(Pair(Ge(5), "foo"))) can be used
-// to match a std::map<int, string> that contains exactly one element whose key
+// to match a std::map<int, string> that contains exactly one elements whose key
 // is >= 5 and whose value equals "foo".
 template <typename FirstMatcher, typename SecondMatcher>
 inline internal::PairMatcher<FirstMatcher, SecondMatcher>

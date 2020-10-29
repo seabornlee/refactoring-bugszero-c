@@ -414,8 +414,8 @@ class ActionInterface {
 
   // Performs the action.  This method is not const, as in general an
   // action can have side effects and be stateful.  For example, a
-  // get-the-next-element-from-the-collection action will need to
-  // remember the current element.
+  // get-the-next-elements-from-the-collection action will need to
+  // remember the current elements.
   virtual Result Perform(const ArgumentTuple& args) = 0;
 
  private:
@@ -817,7 +817,7 @@ class ReturnRoundRobinAction {
  public:
   explicit ReturnRoundRobinAction(std::vector<T> values) {
     GTEST_CHECK_(!values.empty())
-        << "ReturnRoundRobin requires at least one element.";
+        << "ReturnRoundRobin requires at least one elements.";
     state_->values = std::move(values);
   }
 
@@ -1168,7 +1168,7 @@ internal::ByMoveWrapper<R> ByMove(R x) {
   return internal::ByMoveWrapper<R>(std::move(x));
 }
 
-// Creates an action that returns an element of `vals`. Calling this action will
+// Creates an action that returns an elements of `vals`. Calling this action will
 // repeatedly return the next value from `vals` until it reaches the end and
 // will restart from the beginning.
 template <typename T>
@@ -1176,7 +1176,7 @@ internal::ReturnRoundRobinAction<T> ReturnRoundRobin(std::vector<T> vals) {
   return internal::ReturnRoundRobinAction<T>(std::move(vals));
 }
 
-// Creates an action that returns an element of `vals`. Calling this action will
+// Creates an action that returns an elements of `vals`. Calling this action will
 // repeatedly return the next value from `vals` until it reaches the end and
 // will restart from the beginning.
 template <typename T>

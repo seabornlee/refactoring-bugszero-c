@@ -159,7 +159,7 @@ void InitGoogleMockImpl(int* argc, CharType** argv) {
                                &GMOCK_FLAG(default_mock_behavior))) {
       // Yes.  Shift the remainder of the argv list left by one.  Note
       // that argv has (*argc + 1) elements, the last one always being
-      // NULL.  The following loop moves the trailing NULL element as
+      // NULL.  The following loop moves the trailing NULL elements as
       // well.
       for (int j = i; j != *argc; j++) {
         argv[j] = argv[j + 1];
@@ -169,7 +169,7 @@ void InitGoogleMockImpl(int* argc, CharType** argv) {
       (*argc)--;
 
       // We also need to decrement the iterator as we just removed
-      // an element.
+      // an elements.
       i--;
     }
   }

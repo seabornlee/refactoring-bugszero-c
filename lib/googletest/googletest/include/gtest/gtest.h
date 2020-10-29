@@ -449,12 +449,12 @@ class GTEST_API_ Test {
   // not members of the test fixture.  Calls to RecordProperty made during
   // lifespan of the test (from the moment its constructor starts to the
   // moment its destructor finishes) will be output in XML as attributes of
-  // the <testcase> element.  Properties recorded from fixture's
+  // the <testcase> elements.  Properties recorded from fixture's
   // SetUpTestSuite or TearDownTestSuite are logged as attributes of the
-  // corresponding <testsuite> element.  Calls to RecordProperty made in the
+  // corresponding <testsuite> elements.  Calls to RecordProperty made in the
   // global context (before or after invocation of RUN_ALL_TESTS and from
   // SetUp/TearDown method of Environment objects registered with Google
-  // Test) will be output as attributes of the <testsuites> element.
+  // Test) will be output as attributes of the <testsuites> elements.
   static void RecordProperty(const std::string& key, const std::string& value);
   static void RecordProperty(const std::string& key, int value);
 
@@ -633,7 +633,7 @@ class GTEST_API_ TestResult {
   // a non-fatal failure if invalid (e.g., if it conflicts with reserved
   // key names). If a property is already recorded for the same key, the
   // value will be updated, rather than storing multiple values for the same
-  // key.  xml_element specifies the element for which the property is being
+  // key.  xml_element specifies the elements for which the property is being
   // recorded and is used for validation.
   void RecordProperty(const std::string& xml_element,
                       const TestProperty& test_property);
@@ -1006,7 +1006,7 @@ class GTEST_API_ TestSuite {
   // elements in the vector.
   std::vector<TestInfo*> test_info_list_;
   // Provides a level of indirection for the test list to allow easy
-  // shuffling and restoring the test order.  The i-th element in this
+  // shuffling and restoring the test order.  The i-th elements in this
   // vector is the index of the i-th test in the shuffled test list.
   std::vector<int> test_indices_;
   // Pointer to the function that sets up the test suite.

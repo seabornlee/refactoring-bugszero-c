@@ -2239,7 +2239,7 @@ void TestResult::RecordProperty(const std::string& xml_element,
   property_with_matching_key->SetValue(test_property.value());
 }
 
-// The list of reserved attributes used in the <testsuites> element of XML
+// The list of reserved attributes used in the <testsuites> elements of XML
 // output.
 static const char* const kReservedTestSuitesAttributes[] = {
   "disabled",
@@ -2252,12 +2252,12 @@ static const char* const kReservedTestSuitesAttributes[] = {
   "timestamp"
 };
 
-// The list of reserved attributes used in the <testsuite> element of XML
+// The list of reserved attributes used in the <testsuite> elements of XML
 // output.
 static const char* const kReservedTestSuiteAttributes[] = {
     "disabled", "errors", "failures", "name", "tests", "time", "timestamp"};
 
-// The list of reserved attributes used in the <testcase> element of XML output.
+// The list of reserved attributes used in the <testcase> elements of XML output.
 static const char* const kReservedTestCaseAttributes[] = {
     "classname",   "name", "status", "time",  "type_param",
     "value_param", "file", "line"};
@@ -2331,7 +2331,7 @@ static bool ValidateTestPropertyName(
   return true;
 }
 
-// Adds a failure if the key is a reserved attribute of the element named
+// Adds a failure if the key is a reserved attribute of the elements named
 // xml_element.  Returns true if the property is valid.
 bool TestResult::ValidateTestProperty(const std::string& xml_element,
                                       const TestProperty& test_property) {
@@ -3732,7 +3732,7 @@ class XmlUnitTestResultPrinter : public EmptyTestEventListener {
     return EscapeXml(str, false);
   }
 
-  // Verifies that the given attribute belongs to the given element and
+  // Verifies that the given attribute belongs to the given elements and
   // streams the attribute as XML.
   static void OutputXmlAttribute(std::ostream* stream,
                                  const std::string& element_name,
@@ -3950,7 +3950,7 @@ void XmlUnitTestResultPrinter::OutputXmlAttribute(
 
   GTEST_CHECK_(std::find(allowed_names.begin(), allowed_names.end(), name) !=
                    allowed_names.end())
-      << "Attribute " << name << " is not allowed for element <" << element_name
+      << "Attribute " << name << " is not allowed for elements <" << element_name
       << ">.";
 
   *stream << " " << name << "=\"" << EscapeXmlAttribute(value) << "\"";
@@ -4170,7 +4170,7 @@ class JsonUnitTestResultPrinter : public EmptyTestEventListener {
   // Returns an JSON-escaped copy of the input string str.
   static std::string EscapeJson(const std::string& str);
 
-  //// Verifies that the given attribute belongs to the given element and
+  //// Verifies that the given attribute belongs to the given elements and
   //// streams the attribute as JSON.
   static void OutputJsonKey(std::ostream* stream,
                             const std::string& element_name,
@@ -6199,7 +6199,7 @@ void ParseGoogleTestFlagsOnlyImpl(int* argc, CharType** argv) {
     if (remove_flag) {
       // Shift the remainder of the argv list left by one.  Note
       // that argv has (*argc + 1) elements, the last one always being
-      // NULL.  The following loop moves the trailing NULL element as
+      // NULL.  The following loop moves the trailing NULL elements as
       // well.
       for (int j = i; j != *argc; j++) {
         argv[j] = argv[j + 1];
@@ -6209,7 +6209,7 @@ void ParseGoogleTestFlagsOnlyImpl(int* argc, CharType** argv) {
       (*argc)--;
 
       // We also need to decrement the iterator as we just removed
-      // an element.
+      // an elements.
       i--;
     }
   }

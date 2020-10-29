@@ -355,11 +355,11 @@ As an example, let's write tests for a FIFO queue class named `Queue`, which has
 the following interface:
 
 ```c++
-template <typename E>  // E is the element type.
+template <typename E>  // E is the elements type.
 class Queue {
  public:
   Queue();
-  void Enqueue(const E& element);
+  void Enqueue(const E& elements);
   E* Dequeue();  // Returns NULL if the queue is empty.
   size_t size() const;
   ...

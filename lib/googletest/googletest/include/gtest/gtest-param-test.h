@@ -188,7 +188,7 @@ namespace testing {
 // Google Test uses these generators to produce parameters for value-
 // parameterized tests. When a parameterized test suite is instantiated
 // with a particular generator, Google Test creates and runs tests
-// for each element in the sequence produced by the generator.
+// for each elements in the sequence produced by the generator.
 //
 // In the following sample, tests from test suite FooTest are instantiated
 // each three times with parameter values 3, 5, and 8:

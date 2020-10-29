@@ -573,7 +573,7 @@ class GTEST_API_ Expectation {
 // This class is copyable and has value semantics.
 class ExpectationSet {
  public:
-  // A bidirectional iterator that can read a const element in the set.
+  // A bidirectional iterator that can read a const elements in the set.
   typedef Expectation::Set::const_iterator const_iterator;
 
   // An object stored in the set.  This is an alias of Expectation.

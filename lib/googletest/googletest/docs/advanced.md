@@ -1140,9 +1140,9 @@ will output XML like this:
 > *   Calling `RecordProperty()` outside of the lifespan of a test is allowed.
 >     If it's called outside of a test but between a test suite's
 >     `SetUpTestSuite()` and `TearDownTestSuite()` methods, it will be
->     attributed to the XML element for the test suite. If it's called outside
+>     attributed to the XML elements for the test suite. If it's called outside
 >     of all test suites (e.g. in a test environment), it will be attributed to
->     the top-level XML element.
+>     the top-level XML elements.
 
 ## Sharing Resources Between Tests in the Same Test Suite
 
@@ -2304,7 +2304,7 @@ apply to googletest tests, as shown here:
 </testsuites>
 ```
 
-*   The root `<testsuites>` element corresponds to the entire test program.
+*   The root `<testsuites>` elements corresponds to the entire test program.
 *   `<testsuite>` elements correspond to googletest test suites.
 *   `<testcase>` elements correspond to googletest test functions.
 
@@ -2338,7 +2338,7 @@ could generate this report:
 
 Things to note:
 
-*   The `tests` attribute of a `<testsuites>` or `<testsuite>` element tells how
+*   The `tests` attribute of a `<testsuites>` or `<testsuite>` elements tells how
     many test functions the googletest program or test suite contains, while the
     `failures` attribute tells how many of them failed.
 
@@ -2348,7 +2348,7 @@ Things to note:
 *   The `timestamp` attribute records the local date and time of the test
     execution.
 
-*   Each `<failure>` element corresponds to a single failed googletest
+*   Each `<failure>` elements corresponds to a single failed googletest
     assertion.
 
 #### Generating a JSON Report

@@ -301,7 +301,7 @@ static void UniversalPrintCharArray(
   //   const char kFoo[] = "foo";
   // generates an array of 4, not 3, elements, with the last one being '\0'.
   //
-  // Therefore when printing a char array, we don't print the last element if
+  // Therefore when printing a char array, we don't print the last elements if
   // it's '\0', such that the output matches the string literal as it's
   // written in the source code.
   if (len > 0 && begin[len - 1] == '\0') {
@@ -309,7 +309,7 @@ static void UniversalPrintCharArray(
     return;
   }
 
-  // If, however, the last element in the array is not '\0', e.g.
+  // If, however, the last elements in the array is not '\0', e.g.
   //    const char kFoo[] = { 'f', 'o', 'o' };
   // we must print the entire array.  We also print a message to indicate
   // that the array is not NUL-terminated.

@@ -289,13 +289,13 @@ inline int CountIf(const Container& c, Predicate predicate) {
   return count;
 }
 
-// Applies a function/functor to each element in the container.
+// Applies a function/functor to each elements in the container.
 template <class Container, typename Functor>
 void ForEach(const Container& c, Functor functor) {
   std::for_each(c.begin(), c.end(), functor);
 }
 
-// Returns the i-th element of the vector, or default_value if i is not
+// Returns the i-th elements of the vector, or default_value if i is not
 // in range [0, v.size()).
 template <typename E>
 inline E GetElementOr(const std::vector<E>& v, int i, E default_value) {
@@ -304,7 +304,7 @@ inline E GetElementOr(const std::vector<E>& v, int i, E default_value) {
 }
 
 // Performs an in-place shuffle of a range of the vector's elements.
-// 'begin' and 'end' are element indices as an STL-style range;
+// 'begin' and 'end' are elements indices as an STL-style range;
 // i.e. [begin, end) are shuffled, where 'end' == size() means to
 // shuffle to the end of the vector.
 template <typename E>
@@ -878,7 +878,7 @@ class GTEST_API_ UnitTestImpl {
 
   // Provides a level of indirection for the test suite list to allow
   // easy shuffling and restoring the test suite order.  The i-th
-  // element of this vector is the index of the i-th test suite in the
+  // elements of this vector is the index of the i-th test suite in the
   // shuffled order.
   std::vector<int> test_suite_indices_;
 

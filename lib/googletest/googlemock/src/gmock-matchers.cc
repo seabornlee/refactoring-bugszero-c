@@ -138,7 +138,7 @@ class MaxBipartiteMatchState {
     // whatsoever. Subsequent augmentations can only add flow to the
     // network, and cannot take away that previous flow unit from the source.
     // Since the source-to-left edge can only carry one flow unit (or,
-    // each element can be matched to only one matcher), there is no need
+    // each elements can be matched to only one matcher), there is no need
     // to visit the left nodes more than once looking for augmented paths.
     // The flow is known to be possible or impossible by looking at the
     // node once.
@@ -174,9 +174,9 @@ class MaxBipartiteMatchState {
   // are accessible from at most one right node in the residual flow
   // graph.
   //
-  // Note that left_[ilhs] is the only element of left_ that TryAugment will
+  // Note that left_[ilhs] is the only elements of left_ that TryAugment will
   // potentially transition from kUnused to another value. Any other
-  // left_ element holding kUnused before TryAugment will be holding it
+  // left_ elements holding kUnused before TryAugment will be holding it
   // when TryAugment returns.
   //
   bool TryAugment(size_t ilhs, ::std::vector<char>* seen) {
@@ -206,13 +206,13 @@ class MaxBipartiteMatchState {
   }
 
   const MatchMatrix* graph_;  // not owned
-  // Each element of the left_ vector represents a left hand side node
-  // (i.e. an element) and each element of right_ is a right hand side
+  // Each elements of the left_ vector represents a left hand side node
+  // (i.e. an elements) and each elements of right_ is a right hand side
   // node (i.e. a matcher). The values in the left_ vector indicate
   // outflow from that node to a node on the right_ side. The values
   // in the right_ indicate inflow, and specify which left_ node is
   // feeding that right_ node, if any. For example, left_[3] == 1 means
-  // there's a flow from element #3 to matcher #1. Such a flow would also
+  // there's a flow from elements #3 to matcher #1. Such a flow would also
   // be redundantly represented in the right_ vector as right_[1] == 3.
   // Elements of left_ and right_ are either kUnused or mutually
   // referent. Mutually referent means that left_[right_[i]] = i and
@@ -237,7 +237,7 @@ static void LogElementMatcherPairVec(const ElementMatcherPairs& pairs,
   const char* sep = "";
   for (Iter it = pairs.begin(); it != pairs.end(); ++it) {
     os << sep << "\n  ("
-       << "element #" << it->first << ", "
+       << "elements #" << it->first << ", "
        << "matcher #" << it->second << ")";
     sep = ",";
   }
@@ -289,7 +289,7 @@ void UnorderedElementsAreMatcherImplBase::DescribeToImpl(
         return;
       }
       if (matcher_describers_.size() == 1) {
-        *os << "has " << Elements(1) << " and that element ";
+        *os << "has " << Elements(1) << " and that elements ";
         matcher_describers_[0]->DescribeTo(os);
         return;
       }
@@ -308,9 +308,9 @@ void UnorderedElementsAreMatcherImplBase::DescribeToImpl(
   for (size_t i = 0; i != matcher_describers_.size(); ++i) {
     *os << sep;
     if (match_flags() == UnorderedMatcherRequire::ExactMatch) {
-      *os << " - element #" << i << " ";
+      *os << " - elements #" << i << " ";
     } else {
-      *os << " - an element ";
+      *os << " - an elements ";
     }
     matcher_describers_[i]->DescribeTo(os);
     if (match_flags() == UnorderedMatcherRequire::ExactMatch) {
@@ -349,9 +349,9 @@ void UnorderedElementsAreMatcherImplBase::DescribeNegationToImpl(
   for (size_t i = 0; i != matcher_describers_.size(); ++i) {
     *os << sep;
     if (match_flags() == UnorderedMatcherRequire::ExactMatch) {
-      *os << " - element #" << i << " ";
+      *os << " - elements #" << i << " ";
     } else {
-      *os << " - an element ";
+      *os << " - an elements ";
     }
     matcher_describers_[i]->DescribeTo(os);
     if (match_flags() == UnorderedMatcherRequire::ExactMatch) {
@@ -362,7 +362,7 @@ void UnorderedElementsAreMatcherImplBase::DescribeNegationToImpl(
   }
 }
 
-// Checks that all matchers match at least one element, and that all
+// Checks that all matchers match at least one elements, and that all
 // elements match at least one matcher. This enables faster matching
 // and better error reporting.
 // Returns false, writing an explanation to 'listener', if and only
@@ -407,7 +407,7 @@ bool UnorderedElementsAreMatcherImplBase::VerifyMatchMatrix(
       if (element_matched[ei]) continue;
       result = false;
       if (listener->IsInterested()) {
-        *listener << outer_sep << sep << "element #" << ei << ": "
+        *listener << outer_sep << sep << "elements #" << ei << ": "
                   << element_printouts[ei];
         sep = ",\n";
         outer_sep = "";
@@ -449,7 +449,7 @@ bool UnorderedElementsAreMatcherImplBase::FindPairing(
     if (listener->IsInterested()) {
       const char* sep = "where:\n";
       for (size_t mi = 0; mi < matches.size(); ++mi) {
-        *listener << sep << " - element #" << matches[mi].first
+        *listener << sep << " - elements #" << matches[mi].first
                   << " is matched by matcher #" << matches[mi].second;
         sep = ",\n";
       }
