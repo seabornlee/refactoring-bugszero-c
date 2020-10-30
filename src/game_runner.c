@@ -1,9 +1,9 @@
 #include "game_runner.h"
 
-int main(int argc, char* argv[]) {
-    playGame();
-    return 0;
-}
+//int main(int argc, char* argv[]) {
+//    playGame();
+//    return 0;
+//}
 
 void playGame() {
     Game* aGame = newGame();
