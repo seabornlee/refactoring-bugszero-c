@@ -4,11 +4,13 @@
 #include "linked_list.h"
 #include "array_list.h"
 
+static const int MAX_PLAYERS_COUNT = 6;
+
 typedef struct _game {
     ArrayList *players;
-    int places[6];
-    int purses[6];
-    int inPenaltyBox[6];
+    int places[MAX_PLAYERS_COUNT];
+    int purses[MAX_PLAYERS_COUNT];
+    int inPenaltyBox[MAX_PLAYERS_COUNT];
 
     LinkedList *popQuestions;
     LinkedList *scienceQuestions;

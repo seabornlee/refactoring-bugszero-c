@@ -12,6 +12,7 @@ void playGame() {
     add(aGame, "Pat");
     add(aGame, "Sue");
 
+    int notWinner;
     do {
         roll(aGame, nextInt(5) + 1);
 

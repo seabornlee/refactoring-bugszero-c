@@ -16,9 +16,9 @@ Game *newGame() {
     Game *game = (Game *) malloc(sizeof(Game));
 
     game->currentPlayer = 0;
-    memset(game->purses, 0, sizeof(int) * 6);
-    memset(game->places, 0, sizeof(int) * 6);
-    memset(game->inPenaltyBox, 0, sizeof(int) * 6);
+    memset(game->purses, 0, sizeof(int) * MAX_PLAYERS_COUNT);
+    memset(game->places, 0, sizeof(int) * MAX_PLAYERS_COUNT);
+    memset(game->inPenaltyBox, 0, sizeof(int) * MAX_PLAYERS_COUNT);
 
     game->players = newArrayList();
     game->popQuestions = newLinkedList();
@@ -57,10 +57,6 @@ int add(Game *game, const char *playerName) {
     return 1;
 }
 
-int isPlayable(Game *game) {
-    return howManyPlayers(game) >= 2;
-}
-
 int howManyPlayers(Game *pGame) {
     return size(pGame->players);
 }
@@ -96,13 +92,13 @@ void movePlayerAndAskQuestion(Game *pGame, int roll) {
 }
 
 void askQuestion(Game *pGame) {
-    if (currentCategory(pGame) == "Pop")
+    if (strcmp(currentCategory(pGame), "Pop") == 0)
         printf("%s\r\n", removeFirst(pGame->popQuestions));
-    if (currentCategory(pGame) == "Science")
+    if (strcmp(currentCategory(pGame), "Science") == 0)
         printf("%s\r\n", removeFirst(pGame->scienceQuestions));
-    if (currentCategory(pGame) == "Sports")
+    if (strcmp(currentCategory(pGame), "Sports") == 0)
         printf("%s\r\n", removeFirst(pGame->sportsQuestions));
-    if (currentCategory(pGame) == "Rock")
+    if (strcmp(currentCategory(pGame), "Rock") == 0)
         printf("%s\r\n", removeFirst(pGame->rockQuestions));
 }
 
@@ -114,7 +110,7 @@ const char *currentCategory(Game *pGame) {
     if (pGame->places[pGame->currentPlayer] == 5) return "Science";
     if (pGame->places[pGame->currentPlayer] == 9) return "Science";
     if (pGame->places[pGame->currentPlayer] == 2) return "Sports";
-    if (pGame->places[pGame->currentPlayer] == 6) return "Sports";
+    if (pGame->places[pGame->currentPlayer] == MAX_PLAYERS_COUNT) return "Sports";
     if (pGame->places[pGame->currentPlayer] == 10) return "Sports";
     return "Rock";
 }
@@ -146,7 +142,7 @@ int wasCorrectlyAnswered(Game *game) {
             return 1;
         }
     } else {
-        printf("Answer was corrent!!!!\r\n");
+        printf("Answer was correct!!!!\r\n");
         game->purses[game->currentPlayer]++;
         printf("%s now has %d Gold Coins.\r\n", get(game->players, game->currentPlayer), game->purses[game->currentPlayer]);
 
@@ -159,6 +155,6 @@ int wasCorrectlyAnswered(Game *game) {
 }
 
 int didPlayerWin(Game *pGame) {
-    return !(pGame->purses[pGame->currentPlayer] == 6);
+    return pGame->purses[pGame->currentPlayer] != MAX_PLAYERS_COUNT;
 }
 
