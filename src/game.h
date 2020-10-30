@@ -14,7 +14,6 @@ static const char *CATEGORIES[] = {"Pop", "Science", "Sports", "Rock"};
 typedef struct _game {
     int playerCount;
     Player *players[MAX_PLAYERS_COUNT];
-    int purses[MAX_PLAYERS_COUNT];
 
     QuestionCategory *questionCategory[CATEGORY_COUNT];
     int currentPlayer;

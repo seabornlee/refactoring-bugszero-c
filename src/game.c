@@ -9,8 +9,6 @@ const char *currentCategory(Game *pGame);
 
 void askQuestion(Game *pGame);
 
-int didPlayerWin(Game *pGame);
-
 const char *getCurrentPlayerName(const Game *game);
 
 Game *newGame() {
@@ -19,7 +17,6 @@ Game *newGame() {
     game->playerCount = 0;
 
     game->currentPlayer = 0;
-    memset(game->purses, 0, sizeof(int) * MAX_PLAYERS_COUNT);
 
     for (int i = 0; i < 4; ++i) {
         game->questionCategory[i] = newQuestionCategory(CATEGORIES[i]);
@@ -30,7 +27,6 @@ Game *newGame() {
 
 int add(Game *game, const char *playerName) {
     game->players[game->playerCount] = newPlayer(playerName);
-    game->purses[game->playerCount] = 0;
     game->playerCount++;
 
     printf("%s was added\r\n", playerName);
@@ -104,11 +100,10 @@ int wasCorrectlyAnswered(Game *game) {
             printf("Answer was correct!!!!\r\n");
             game->currentPlayer++;
             if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
-            game->purses[game->currentPlayer]++;
-            printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->purses[game->currentPlayer]);
-            int winner = didPlayerWin(game);
+            gotOneGoldCoin(game->players[game->currentPlayer]);
+            printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
 
-            return winner;
+            return !isWinner(game->players[game->currentPlayer]);
         } else {
             game->currentPlayer++;
             if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
@@ -116,18 +111,14 @@ int wasCorrectlyAnswered(Game *game) {
         }
     } else {
         printf("Answer was correct!!!!\r\n");
-        game->purses[game->currentPlayer]++;
-        printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->purses[game->currentPlayer]);
+        gotOneGoldCoin(game->players[game->currentPlayer]);
+        printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
 
-        int winner = didPlayerWin(game);
+        int winner = !isWinner(game->players[game->currentPlayer]);
         game->currentPlayer++;
         if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
 
         return winner;
     }
-}
-
-int didPlayerWin(Game *pGame) {
-    return pGame->purses[pGame->currentPlayer] != MAX_PLAYERS_COUNT;
 }
 

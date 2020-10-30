@@ -5,6 +5,7 @@ Player *newPlayer(const char *name) {
     pPlayer->name = name;
     pPlayer->place = 0;
     pPlayer->inPenaltyBox = 0;
+    pPlayer->purses = 0;
     return pPlayer;
 }
 
@@ -16,4 +17,12 @@ void moveSteps(Player *player, int steps) {
 
 void putIntoPenaltyBox(Player *player) {
     player->inPenaltyBox = 1;
+}
+
+void gotOneGoldCoin(Player *player) {
+    player->purses++;
+}
+
+int isWinner(Player *player) {
+    return player->purses == 6;
 }
