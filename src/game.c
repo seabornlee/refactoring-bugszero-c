@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "game.h"
+#include "question_category.h"
 
 int howManyPlayers(Game *pGame);
 
@@ -21,27 +22,10 @@ Game *newGame() {
     memset(game->inPenaltyBox, 0, sizeof(int) * MAX_PLAYERS_COUNT);
 
     game->players = newArrayList();
-    game->popQuestions = newLinkedList();
-    game->scienceQuestions = newLinkedList();
-    game->sportsQuestions = newLinkedList();
-    game->rockQuestions = newLinkedList();
 
-    for (int i = 0; i < 50; ++i) {
-        char str[20] = {0};
-        sprintf(str, "%s %d", "Pop Question", i);
-        addLast(game->popQuestions, str);
-
-        char str1[20] = {0};
-        sprintf(str1, "%s %d", "Science Question", i);
-        addLast(game->scienceQuestions, str1);
-
-        char str2[20] = {0};
-        sprintf(str2, "%s %d", "Sports Question", i);
-        addLast(game->sportsQuestions, str2);
-
-        char str3[25] = {0};
-        sprintf(str3, "%s %d", "Rock Question", i);
-        addLast(game->rockQuestions, str3);
+    for (int i = 0; i < 4; ++i) {
+        game->questionCategory[i] = newQuestionCategory(CATEGORIES[i]);
+        initQuestions(game->questionCategory[i], MAX_QUESTIONS_COUNT);
     }
     return game;
 }
@@ -92,14 +76,10 @@ void movePlayerAndAskQuestion(Game *pGame, int roll) {
 }
 
 void askQuestion(Game *pGame) {
-    if (strcmp(currentCategory(pGame), "Pop") == 0)
-        printf("%s\r\n", removeFirst(pGame->popQuestions));
-    if (strcmp(currentCategory(pGame), "Science") == 0)
-        printf("%s\r\n", removeFirst(pGame->scienceQuestions));
-    if (strcmp(currentCategory(pGame), "Sports") == 0)
-        printf("%s\r\n", removeFirst(pGame->sportsQuestions));
-    if (strcmp(currentCategory(pGame), "Rock") == 0)
-        printf("%s\r\n", removeFirst(pGame->rockQuestions));
+    for (int i = 0; i < CATEGORY_COUNT; ++i) {
+        if (strcmp(currentCategory(pGame), CATEGORIES[i]) == 0)
+            printf("%s\r\n", pickOneQuestion(pGame->questionCategory[i]));
+    }
 }
 
 const char *currentCategory(Game *pGame) {

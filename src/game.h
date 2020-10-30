@@ -3,8 +3,12 @@
 
 #include "linked_list.h"
 #include "array_list.h"
+#include "question_category.h"
 
 static const int MAX_PLAYERS_COUNT = 6;
+static const int MAX_QUESTIONS_COUNT = 50;
+static const int CATEGORY_COUNT = 4;
+static const char *CATEGORIES[] = {"Pop", "Science", "Sports", "Rock"};
 
 typedef struct _game {
     ArrayList *players;
@@ -12,10 +16,7 @@ typedef struct _game {
     int purses[MAX_PLAYERS_COUNT];
     int inPenaltyBox[MAX_PLAYERS_COUNT];
 
-    LinkedList *popQuestions;
-    LinkedList *scienceQuestions;
-    LinkedList *sportsQuestions;
-    LinkedList *rockQuestions;
+    QuestionCategory *questionCategory[CATEGORY_COUNT];
     int currentPlayer;
     int isGettingOutOfPenaltyBox;
 } Game;

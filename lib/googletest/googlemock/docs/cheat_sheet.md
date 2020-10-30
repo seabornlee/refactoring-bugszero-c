@@ -242,7 +242,7 @@ A **matcher** matches a *single* argument. You can use it inside `ON_CALL()` or
 Built-in matchers (where `argument` is the function argument, e.g.
 `actual_value` in the example above, or when used in the context of
 `EXPECT_CALL(mock_object, method(matchers))`, the arguments of `method`) are
-divided into several categories:
+divided into several CATEGORIES:
 
 #### Wildcard
 
