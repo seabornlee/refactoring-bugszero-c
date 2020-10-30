@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "game.h"
 
 int howManyPlayers(Game *pGame);
@@ -13,6 +14,11 @@ int didPlayerWin(Game *pGame);
 
 Game *newGame() {
     Game *game = (Game *) malloc(sizeof(Game));
+
+    game->currentPlayer = 0;
+    memset(game->purses, 0, sizeof(int) * 6);
+    memset(game->places, 0, sizeof(int) * 6);
+    memset(game->inPenaltyBox, 0, sizeof(int) * 6);
 
     game->players = newArrayList();
     game->popQuestions = newLinkedList();
@@ -49,6 +55,10 @@ int add(Game *game, const char *playerName) {
     printf("%s was added\r\n", playerName);
     printf("They are player number %d\r\n", size(game->players));
     return 1;
+}
+
+int isPlayable(Game *game) {
+    return howManyPlayers(game) >= 2;
 }
 
 int howManyPlayers(Game *pGame) {
