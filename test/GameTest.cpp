@@ -14,3 +14,40 @@ TEST(GameTest, itsLockedDown) {
     const std::string &out = testing::internal::GetCapturedStdout();
     ApprovalTests::Approvals::verify(out);
 }
+
+TEST(GameTest, should_give_coin_to_right_player) {
+    Game *game = newGame();
+    add(game, "Chet");
+    add(game, "Sue");
+
+    roll(game, 1);
+    wrongAnswer(game);
+
+    roll(game, 1);
+    wasCorrectlyAnswered(game);
+
+    roll(game, 1);
+    wasCorrectlyAnswered(game);
+
+    ASSERT_EQ(game->players[0]->purses, 1);
+    ASSERT_EQ(game->players[1]->purses, 1);
+}
+
+TEST(GameTest, should_finish_game_when_has_a_winner) {
+    Game *game = newGame();
+    add(game, "Chet");
+    add(game, "Sue");
+
+    game->players[0]->purses = 5;
+
+    roll(game, 1);
+    wrongAnswer(game);
+
+    roll(game, 1);
+    wasCorrectlyAnswered(game);
+
+    roll(game, 1);
+    int notWinner = wasCorrectlyAnswered(game);
+
+    ASSERT_EQ(notWinner, 0);
+}

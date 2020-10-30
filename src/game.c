@@ -11,6 +11,8 @@ void askQuestion(Game *pGame);
 
 const char *getCurrentPlayerName(const Game *game);
 
+void moveToNextPlayer(Game *game);
+
 Game *newGame() {
     Game *game = (Game *) malloc(sizeof(Game));
 
@@ -89,24 +91,29 @@ int wrongAnswer(Game *game) {
     printf("%s was sent to the penalty box\r\n", getCurrentPlayerName(game));
     putIntoPenaltyBox(game->players[game->currentPlayer]);
 
+    moveToNextPlayer(game);
+    return 1;
+}
+
+void moveToNextPlayer(Game *game) {
     game->currentPlayer++;
     if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
-    return 1;
 }
 
 int wasCorrectlyAnswered(Game *game) {
     if (game->players[game->currentPlayer]->inPenaltyBox) {
         if (game->isGettingOutOfPenaltyBox) {
             printf("Answer was correct!!!!\r\n");
-            game->currentPlayer++;
-            if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
             gotOneGoldCoin(game->players[game->currentPlayer]);
             printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
 
-            return !isWinner(game->players[game->currentPlayer]);
+            int notWinner = !isWinner(game->players[game->currentPlayer]);
+
+            moveToNextPlayer(game);
+
+            return notWinner;
         } else {
-            game->currentPlayer++;
-            if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
+            moveToNextPlayer(game);
             return 1;
         }
     } else {
@@ -115,9 +122,7 @@ int wasCorrectlyAnswered(Game *game) {
         printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
 
         int winner = !isWinner(game->players[game->currentPlayer]);
-        game->currentPlayer++;
-        if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
-
+        moveToNextPlayer(game);
         return winner;
     }
 }
