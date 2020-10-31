@@ -17,14 +17,13 @@ typedef struct _game {
 
     QuestionCategory *questionCategory[CATEGORY_COUNT];
     int currentPlayer;
-    int isGettingOutOfPenaltyBox;
 } Game;
 
 Game *newGame();
 
 int add(Game *game, const char *playerName);
 
-void roll(Game *game, int roll);
+int canAnswerQuestion(Game *game, int roll);
 
 int wrongAnswer(Game *game);
 

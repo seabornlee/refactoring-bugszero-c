@@ -14,12 +14,15 @@ void playGame() {
 
     int notWinner;
     do {
-        roll(aGame, nextInt(5) + 1);
+        int numberOfDice = nextInt(5) + 1;
+        int needAnswerQuestion = canAnswerQuestion(aGame, numberOfDice);
 
-        if (nextInt(9) == 7) {
-            notWinner = wrongAnswer(aGame);
-        } else {
-            notWinner = wasCorrectlyAnswered(aGame);
+        if (needAnswerQuestion) {
+            if (nextInt(9) == 7) {
+                notWinner = wrongAnswer(aGame);
+            } else {
+                notWinner = wasCorrectlyAnswered(aGame);
+            }
         }
     } while (notWinner);
 

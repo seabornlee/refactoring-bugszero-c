@@ -18,4 +18,6 @@ void gotOneGoldCoin(Player *player);
 
 int isWinner(Player *player);
 
+void releasePlayerFromPenaltyBox(Player *player);
+
 #endif //REFACTOR_BUGSZERO_C_PLAYER_H

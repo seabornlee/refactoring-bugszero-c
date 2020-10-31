@@ -36,22 +36,24 @@ int add(Game *game, const char *playerName) {
     return 1;
 }
 
-void roll(Game *game, int roll) {
+int canAnswerQuestion(Game *game, int roll) {
     printf("%s is the current player\r\n", getCurrentPlayerName(game));
     printf("They have rolled a %d\r\n", roll);
 
     if (game->players[game->currentPlayer]->inPenaltyBox) {
         if (roll % 2 != 0) {
-            game->isGettingOutOfPenaltyBox = 1;
-
+            releasePlayerFromPenaltyBox(game->players[game->currentPlayer]);
             printf("%s is getting out of the penalty box\r\n", getCurrentPlayerName(game));
             movePlayerAndAskQuestion(game, roll);
+            return 1;
         } else {
             printf("%s is not getting out of the penalty box\r\n", getCurrentPlayerName(game));
-            game->isGettingOutOfPenaltyBox = 0;
+            moveToNextPlayer(game);
+            return 0;
         }
     } else {
         movePlayerAndAskQuestion(game, roll);
+        return 1;
     }
 }
 
@@ -101,29 +103,12 @@ void moveToNextPlayer(Game *game) {
 }
 
 int wasCorrectlyAnswered(Game *game) {
-    if (game->players[game->currentPlayer]->inPenaltyBox) {
-        if (game->isGettingOutOfPenaltyBox) {
-            printf("Answer was correct!!!!\r\n");
-            gotOneGoldCoin(game->players[game->currentPlayer]);
-            printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
+    printf("Answer was correct!!!!\r\n");
+    gotOneGoldCoin(game->players[game->currentPlayer]);
+    printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
 
-            int notWinner = !isWinner(game->players[game->currentPlayer]);
-
-            moveToNextPlayer(game);
-
-            return notWinner;
-        } else {
-            moveToNextPlayer(game);
-            return 1;
-        }
-    } else {
-        printf("Answer was correct!!!!\r\n");
-        gotOneGoldCoin(game->players[game->currentPlayer]);
-        printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
-
-        int winner = !isWinner(game->players[game->currentPlayer]);
-        moveToNextPlayer(game);
-        return winner;
-    }
+    int notWinner = !isWinner(game->players[game->currentPlayer]);
+    moveToNextPlayer(game);
+    return notWinner;
 }
 

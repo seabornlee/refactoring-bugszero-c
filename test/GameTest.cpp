@@ -20,13 +20,13 @@ TEST(GameTest, should_give_coin_to_right_player) {
     add(game, "Chet");
     add(game, "Sue");
 
-    roll(game, 1);
+    canAnswerQuestion(game, 1);
     wrongAnswer(game);
 
-    roll(game, 1);
+    canAnswerQuestion(game, 1);
     wasCorrectlyAnswered(game);
 
-    roll(game, 1);
+    canAnswerQuestion(game, 1);
     wasCorrectlyAnswered(game);
 
     ASSERT_EQ(game->players[0]->purses, 1);
@@ -40,13 +40,13 @@ TEST(GameTest, should_finish_game_when_has_a_winner) {
 
     game->players[0]->purses = 5;
 
-    roll(game, 1);
+    canAnswerQuestion(game, 1);
     wrongAnswer(game);
 
-    roll(game, 1);
+    canAnswerQuestion(game, 1);
     wasCorrectlyAnswered(game);
 
-    roll(game, 1);
+    canAnswerQuestion(game, 1);
     int notWinner = wasCorrectlyAnswered(game);
 
     ASSERT_EQ(notWinner, 0);

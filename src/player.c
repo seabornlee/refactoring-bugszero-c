@@ -26,3 +26,7 @@ void gotOneGoldCoin(Player *player) {
 int isWinner(Player *player) {
     return player->purses == 6;
 }
+
+void releasePlayerFromPenaltyBox(Player *player) {
+    player->inPenaltyBox = 0;
+}
