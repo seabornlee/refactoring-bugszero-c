@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include "question_category.h"
 
-char *createQuestion(int i, const char *category);
-
 QuestionCategory *newQuestionCategory(const char *category) {
     QuestionCategory *pQuestionCategory = (QuestionCategory *) malloc(sizeof(QuestionCategory));
     pQuestionCategory->name = category;

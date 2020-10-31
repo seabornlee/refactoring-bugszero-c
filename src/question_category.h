@@ -14,4 +14,6 @@ void initQuestions(QuestionCategory *pQuestionCategory, int count);
 
 const char *pickOneQuestion(QuestionCategory *pQuestionCategory);
 
+char *createQuestion(int i, const char *category);
+
 #endif //REFACTOR_BUGSZERO_C_QUESTION_CATEGORY_H
