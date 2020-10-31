@@ -5,18 +5,15 @@
 #include "array_list.h"
 #include "question_category.h"
 #include "player.h"
+#include "players.h"
 
-static const int MAX_PLAYERS_COUNT = 6;
 static const int MAX_QUESTIONS_COUNT = 50;
 static const char *CATEGORIES[] = {"Pop", "Science", "Sports", "Rock", "Blues", "History"};
 static const int CATEGORY_COUNT = sizeof(CATEGORIES) / sizeof(CATEGORIES[0]);
 
 typedef struct _game {
-    int playerCount;
-    Player *players[MAX_PLAYERS_COUNT];
-
+    Players *players;
     QuestionCategory *questionCategory[CATEGORY_COUNT];
-    int currentPlayer;
 } Game;
 
 Game *newGame();

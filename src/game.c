@@ -11,14 +11,10 @@ void askQuestion(Game *pGame);
 
 const char *getCurrentPlayerName(const Game *game);
 
-void moveToNextPlayer(Game *game);
-
 Game *newGame() {
     Game *game = (Game *) malloc(sizeof(Game));
 
-    game->playerCount = 0;
-
-    game->currentPlayer = 0;
+    game->players = newPlayers();
 
     for (int i = 0; i < CATEGORY_COUNT; ++i) {
         game->questionCategory[i] = newQuestionCategory(CATEGORIES[i]);
@@ -28,11 +24,10 @@ Game *newGame() {
 }
 
 int add(Game *game, const char *playerName) {
-    game->players[game->playerCount] = newPlayer(playerName);
-    game->playerCount++;
+    addPlayer(game->players, playerName);
 
     printf("%s was added\r\n", playerName);
-    printf("They are player number %d\r\n", game->playerCount);
+    printf("They are player number %d\r\n", game->players->playerCount);
     return 1;
 }
 
@@ -40,15 +35,15 @@ int canAnswerQuestion(Game *game, int roll) {
     printf("%s is the current player\r\n", getCurrentPlayerName(game));
     printf("They have rolled a %d\r\n", roll);
 
-    if (game->players[game->currentPlayer]->inPenaltyBox) {
+    if (getCurrentPlayer(game->players)->inPenaltyBox) {
         if (roll % 2 != 0) {
-            releasePlayerFromPenaltyBox(game->players[game->currentPlayer]);
+            releasePlayerFromPenaltyBox(getCurrentPlayer(game->players));
             printf("%s is getting out of the penalty box\r\n", getCurrentPlayerName(game));
             movePlayerAndAskQuestion(game, roll);
             return 1;
         } else {
             printf("%s is not getting out of the penalty box\r\n", getCurrentPlayerName(game));
-            moveToNextPlayer(game);
+            moveToNext(game->players);
             return 0;
         }
     } else {
@@ -57,13 +52,13 @@ int canAnswerQuestion(Game *game, int roll) {
     }
 }
 
-const char *getCurrentPlayerName(const Game *game) { return game->players[game->currentPlayer]->name; }
+const char *getCurrentPlayerName(const Game *game) { return getCurrentPlayer(game->players)->name; }
 
 void movePlayerAndAskQuestion(Game *pGame, int roll) {
-    moveSteps(pGame->players[pGame->currentPlayer], roll);
+    moveSteps(getCurrentPlayer(pGame->players), roll);
 
     printf("%s's new location is %d\r\n", getCurrentPlayerName(pGame),
-           pGame->players[pGame->currentPlayer]->place);
+           getCurrentPlayer(pGame->players)->place);
     printf("The category is %s\r\n", currentCategory(pGame));
     askQuestion(pGame);
 }
@@ -76,30 +71,25 @@ void askQuestion(Game *pGame) {
 }
 
 const char *currentCategory(Game *pGame) {
-    return CATEGORIES[pGame->players[pGame->currentPlayer]->place % CATEGORY_COUNT];
+    return CATEGORIES[getCurrentPlayer(pGame->players)->place % CATEGORY_COUNT];
 }
 
 int wrongAnswer(Game *game) {
     printf("Question was incorrectly answered\r\n");
     printf("%s was sent to the penalty box\r\n", getCurrentPlayerName(game));
-    putIntoPenaltyBox(game->players[game->currentPlayer]);
+    putIntoPenaltyBox(getCurrentPlayer(game->players));
 
-    moveToNextPlayer(game);
+    moveToNext(game->players);
     return 1;
-}
-
-void moveToNextPlayer(Game *game) {
-    game->currentPlayer++;
-    if (game->currentPlayer == game->playerCount) game->currentPlayer = 0;
 }
 
 int wasCorrectlyAnswered(Game *game) {
     printf("Answer was correct!!!!\r\n");
-    gotOneGoldCoin(game->players[game->currentPlayer]);
-    printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), game->players[game->currentPlayer]->purses);
+    gotOneGoldCoin(getCurrentPlayer(game->players));
+    printf("%s now has %d Gold Coins.\r\n", getCurrentPlayerName(game), getCurrentPlayer(game->players)->purses);
 
-    int notWinner = !isWinner(game->players[game->currentPlayer]);
-    moveToNextPlayer(game);
+    int notWinner = !isWinner(getCurrentPlayer(game->players));
+    moveToNext(game->players);
     return notWinner;
 }
 

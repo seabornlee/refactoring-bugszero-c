@@ -29,8 +29,8 @@ TEST(GameTest, should_give_coin_to_right_player) {
     canAnswerQuestion(game, 1);
     wasCorrectlyAnswered(game);
 
-    ASSERT_EQ(game->players[0]->purses, 1);
-    ASSERT_EQ(game->players[1]->purses, 1);
+    ASSERT_EQ(game->players->players[0]->purses, 1);
+    ASSERT_EQ(game->players->players[1]->purses, 1);
 }
 
 TEST(GameTest, should_finish_game_when_has_a_winner) {
@@ -38,7 +38,7 @@ TEST(GameTest, should_finish_game_when_has_a_winner) {
     add(game, "Chet");
     add(game, "Sue");
 
-    game->players[0]->purses = 5;
+    game->players->players[0]->purses = 5;
 
     canAnswerQuestion(game, 1);
     wrongAnswer(game);
