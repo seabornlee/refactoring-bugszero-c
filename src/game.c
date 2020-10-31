@@ -20,7 +20,7 @@ Game *newGame() {
 
     game->currentPlayer = 0;
 
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < CATEGORY_COUNT; ++i) {
         game->questionCategory[i] = newQuestionCategory(CATEGORIES[i]);
         initQuestions(game->questionCategory[i], MAX_QUESTIONS_COUNT);
     }
@@ -76,16 +76,7 @@ void askQuestion(Game *pGame) {
 }
 
 const char *currentCategory(Game *pGame) {
-    if (pGame->players[pGame->currentPlayer]->place == 0) return "Pop";
-    if (pGame->players[pGame->currentPlayer]->place == 4) return "Pop";
-    if (pGame->players[pGame->currentPlayer]->place == 8) return "Pop";
-    if (pGame->players[pGame->currentPlayer]->place == 1) return "Science";
-    if (pGame->players[pGame->currentPlayer]->place == 5) return "Science";
-    if (pGame->players[pGame->currentPlayer]->place == 9) return "Science";
-    if (pGame->players[pGame->currentPlayer]->place == 2) return "Sports";
-    if (pGame->players[pGame->currentPlayer]->place == MAX_PLAYERS_COUNT) return "Sports";
-    if (pGame->players[pGame->currentPlayer]->place == 10) return "Sports";
-    return "Rock";
+    return CATEGORIES[pGame->players[pGame->currentPlayer]->place % CATEGORY_COUNT];
 }
 
 int wrongAnswer(Game *game) {

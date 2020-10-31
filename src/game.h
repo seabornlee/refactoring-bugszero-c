@@ -8,8 +8,8 @@
 
 static const int MAX_PLAYERS_COUNT = 6;
 static const int MAX_QUESTIONS_COUNT = 50;
-static const int CATEGORY_COUNT = 4;
-static const char *CATEGORIES[] = {"Pop", "Science", "Sports", "Rock"};
+static const char *CATEGORIES[] = {"Pop", "Science", "Sports", "Rock", "Blues", "History"};
+static const int CATEGORY_COUNT = sizeof(CATEGORIES) / sizeof(CATEGORIES[0]);
 
 typedef struct _game {
     int playerCount;
