@@ -2,13 +2,23 @@
 #include "array_list.h"
 
 ArrayList *newArrayList() {
-    return (ArrayList *) malloc(sizeof(ArrayList));
+    ArrayList *pList = (ArrayList *) malloc(sizeof(ArrayList));
+    if (pList == NULL) {
+        return pList;
+    }
+
+    pList->size = 0;
+    return pList;
 }
 
 int addElement(ArrayList *list, const char *element) {
-    list->elements[list->size] = malloc(strlen(element) + 1);
-    strcpy(list->elements[list->size], element);
-    list->size++;
+    char *newElement = (char *) malloc(strlen(element) + 1);
+    if (newElement == NULL) {
+        return 0;
+    }
+
+    strcpy(newElement, element);
+    list->elements[list->size++] = newElement;
     return 1;
 }
 
