@@ -4,8 +4,5 @@
 
 using namespace ApprovalTests;
 
-extern "C" {
-}
-
 TEST(GameTest, itsLockedDown) {
 }

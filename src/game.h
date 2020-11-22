@@ -1,6 +1,10 @@
 #ifndef REFACTOR_LENGTH_C_GAME_H
 #define REFACTOR_LENGTH_C_GAME_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "linked_list.h"
 #include "array_list.h"
 
@@ -28,4 +32,7 @@ int wrongAnswer(Game *game);
 
 int wasCorrectlyAnswered(Game *game);
 
+#ifdef __cplusplus
+};
+#endif
 #endif //REFACTOR_LENGTH_C_GAME_H
