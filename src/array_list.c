@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include "array_list.h"
 
 ArrayList *newArrayList() {
