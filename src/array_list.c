@@ -30,3 +30,9 @@ int size(ArrayList *list) {
 const char *get(ArrayList *list, int i) {
     return list->elements[i];
 }
+
+void destroyArrayList(ArrayList *list) {
+    for (int i = 0; i < list->size; ++i) {
+        free(list->elements[i]);
+    }
+}

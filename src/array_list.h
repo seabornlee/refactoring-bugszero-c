@@ -14,4 +14,6 @@ int size(ArrayList *list);
 
 const char* get(ArrayList *list, int i);
 
+void destroyArrayList(ArrayList *list);
+
 #endif //REFACTOR_BUGSZERO_C_ARRAY_LIST_H

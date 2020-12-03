@@ -46,3 +46,13 @@ const char *removeFirst(LinkedList *linkedList) {
     linkedList->next = linkedList->next->next;
     return element;
 }
+
+void destroyLinkedList(LinkedList *linkedList) {
+    LinkedList *current;
+    while (linkedList->next) {
+        current = linkedList->next;
+        linkedList->next = current->next;
+        free(current);
+    }
+    free(linkedList);
+}

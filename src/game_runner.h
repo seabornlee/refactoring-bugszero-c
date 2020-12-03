@@ -5,6 +5,6 @@
 #include "game.h"
 
 int notWinner;
-void playGame();
+void playGame(Game *game);
 
 #endif //REFACTOR_LENGTH_C_GAME_RUNNER_H

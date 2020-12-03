@@ -163,3 +163,27 @@ int didPlayerWin(Game *pGame) {
     return !(pGame->purses[pGame->currentPlayer] == 6);
 }
 
+void destroyGame(Game *game) {
+    if (game->players != NULL) {
+        destroyArrayList(game->players);
+        game->players = NULL;
+    }
+
+    if (game->popQuestions != NULL) {
+        destroyLinkedList(game->popQuestions);
+        game->popQuestions = NULL;
+    }
+    if (game->scienceQuestions != NULL) {
+        destroyLinkedList(game->scienceQuestions);
+        game->scienceQuestions = NULL;
+    }
+    if (game->sportsQuestions != NULL) {
+        destroyLinkedList(game->sportsQuestions);
+        game->sportsQuestions = NULL;
+    }
+    if (game->rockQuestions != NULL) {
+        destroyLinkedList(game->rockQuestions);
+        game->rockQuestions = NULL;
+    }
+    free(game);
+}

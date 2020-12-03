@@ -14,4 +14,6 @@ int len(LinkedList *linkedList);
 
 const char *removeFirst(LinkedList *linkedList);
 
+void destroyLinkedList(LinkedList *linkedList);
+
 #endif //REFACTOR_BUGSZERO_C_LINKED_LIST_H

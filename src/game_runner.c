@@ -1,13 +1,13 @@
 #include "game_runner.h"
 
 int main(int argc, char* argv[]) {
-    playGame();
+    Game* aGame = newGame();
+    playGame(aGame);
+    destroyGame(aGame);
     return 0;
 }
 
-void playGame() {
-    Game* aGame = newGame();
-
+void playGame(Game *aGame) {
     add(aGame, "Chet");
     add(aGame, "Pat");
     add(aGame, "Sue");

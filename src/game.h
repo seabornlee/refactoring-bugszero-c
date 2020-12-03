@@ -31,7 +31,7 @@ void roll(Game *game, int roll);
 int wrongAnswer(Game *game);
 
 int wasCorrectlyAnswered(Game *game);
-
+void destroyGame(Game *game);
 #ifdef __cplusplus
 };
 #endif
