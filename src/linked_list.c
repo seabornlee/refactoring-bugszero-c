@@ -1,6 +1,7 @@
 #include <string.h>
 #include "linked_list.h"
 #include "stdlib.h"
+#include <stdio.h>
 
 LinkedList *newLinkedList() {
     LinkedList *head = (LinkedList *) malloc(sizeof(LinkedList));
